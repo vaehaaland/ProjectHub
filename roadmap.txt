@@ -1,0 +1,196 @@
+Roadmap: ProjectHub (.NET 8 + Vue 3)
+
+Fase 0 — Project bootstrap (1–2 dager)
+
+Mål: Et minimalt, kjørbart skjelett med CI som bygger og tester.
+
+Tech stack
+	•	Backend: .NET 8 Web API, EF Core 8, SQL Server (lokalt via Docker), Serilog (+ Console).
+	•	Frontend: Vue 3, Vite, TypeScript, Vue Router, Pinia, Bootstrap 5 + Bootstrap Icons.
+	•	Testing: xUnit (API), Vitest (UI), Playwright (e2e – settes opp, ingen tester ennå).
+	•	DevX: ESLint + Prettier, EditorConfig, dotnet-tools.json (ef, dotnet-format).
+	•	CI/CD: GitHub Actions: build + test begge prosjekter.
+	•	Container: Docker Compose: api, sqlserver, web (dev).
+
+Leveranser
+	•	Monorepo med src/api og src/web.
+	•	Compose som starter SQL Server og migrerer DB ved api oppstart.
+	•	CI som compiles & kjører tester på push.
+
+Akseptkriterier
+	•	docker compose up gir fungerende API /health og web /.
+	•	CI passerer uten manuell fikling.
+
+Stretch goals
+	•	Conventional commits + semantic-release for auto versjon.
+	•	Simple seed (1 prosjekt, 2 tasks).
+
+⸻
+
+Fase 1 — CRUD-kjerne: Prosjekter og Tasks (1 uke)
+
+Mål: Full CRUD + list/detalj i UI. Solid Vue-dataflyt.
+
+Backend
+	•	Entiteter: Project, TaskItem (1-mange).
+	•	Endepunkter: GET/POST/PUT/DELETE /projects, GET/POST/PUT/DELETE /projects/{id}/tasks.
+	•	EF Core migrasjoner, paging/sort; enkel DTO-mapping (Mapster/AutoMapper valgfritt).
+	•	FluentValidation på DTO-er.
+
+Frontend
+	•	Ruter: /projects, /projects/:id.
+	•	Sider: Prosjektliste, Prosjektdetalj (tabell med tasks).
+	•	Pinia store: useProjectStore (cache prosjekter), useTaskStore (scoped til projectId).
+	•	Skjemaer med validering (Zod + @vee-validate), modaler for create/edit.
+
+Akseptkriterier
+	•	Kan opprette/redigere/slette prosjekt og task uten refresh.
+	•	Inputvalidering i UI og API, feilmeldinger vises ryddig.
+
+Stretch goals
+	•	Optimistisk UI ved oppretting/sletting.
+	•	Infinite scroll eller paging-komponent.
+
+⸻
+
+Fase 2 — Interaktivt UI: Kanban + Filtre + Søk (1–2 uker)
+
+Mål: Løfte Vue-nivået med kompleks state, drag-and-drop og reaktiv filtrering.
+
+Backend
+	•	Felter: status (Todo/Doing/Done), priority, dueDate, tags[].
+	•	Endepunkt for query: /tasks/search?projectId=&status=&text=&dueBefore=.
+	•	Indekser på status, dueDate.
+
+Frontend
+	•	Kanban-board (drag-and-drop, f.eks. @dnd-kit/core eller vue3-dnd).
+	•	Filterpanel (status, dato, søk, tags) som synker mot route-query.
+	•	Avansert komponentarkitektur: presentational vs. container components.
+	•	Debounced søk, derived state i Pinia (getters), memoisering.
+
+Akseptkriterier
+	•	Dra en task mellom kolonner lagrer status uten merkbar lagg.
+	•	Filtre og søk funker både i UI og ved side-refresh (URL-drevet).
+
+Stretch goals
+	•	Quick-edit inline (tittel/priority).
+	•	“Saved filters” per bruker (lokalt i localStorage først).
+
+⸻
+
+Fase 3 — Auth & Access Control (1 uke)
+
+Mål: Ekte app-følelse med brukere og beskyttede ruter.
+
+Backend
+	•	ASP.NET Identity + JWT (Bearer).
+	•	Endepunkt: /auth/register, /auth/login, /auth/refresh.
+	•	Claims-basert tilgang: prosjekter er private per bruker (OwnerId).
+
+Frontend
+	•	Auth store (Pinia): token, refresh-flow, profile.
+	•	Axios interceptor for 401 → refresh → retry.
+	•	Route guards: /login, /projects (authed), /projects/:id (owner-check).
+	•	“My Projects” vs. “Shared with me” (legg grunnlag, kan komme senere).
+
+Akseptkriterier
+	•	Uinnlogget bruker redirectes til login.
+	•	Kun eier ser/kan endre egne prosjekter.
+
+Stretch goals
+	•	Invites/Share (read-only link eller bruker-tilgang).
+	•	CSRF-herding for ev. fremtidig cookie-flow.
+
+⸻
+
+Fase 4 — Realtime Collaboration med SignalR (1–2 uker)
+
+Mål: Live-oppdatering av tasks uten reload. God kontroll på reaktivitet.
+
+Backend
+	•	SignalR hub: TaskHub, grupper per projectId.
+	•	Server sender events: TaskCreated, TaskUpdated, TaskMoved, TaskDeleted.
+
+Frontend
+	•	SignalR-klient som kobler seg på ved prosjektdetalj.
+	•	Pinia action-handlers for innkommende events.
+	•	UI-indikatorer: “Someone is editing…”, optimistic rollback ved konflikt.
+
+Akseptkriterier
+	•	To browsere på samme prosjekt ser endringer i sanntid.
+	•	Ingen duplikater/race conditions på client-state.
+
+Stretch goals
+	•	Presence (“N brukere online i dette prosjektet”).
+	•	Typing-indicator ved redigering av beskrivelser.
+
+⸻
+
+Fase 5 — Rik innhold & produktivitet (1–2 uker)
+
+Mål: Gjøre appen nyttig i praksis og presse mer avansert Vue-komposisjon.
+
+Backend
+	•	File upload (Azure Blob eller lokal disk i dev).
+	•	Export-endepunkter: /projects/{id}/export/excel, /export/pdf (Aspose eller QuestPDF).
+	•	Webhooks: en enkel outbound POST når task endres (for integrasjoner).
+
+Frontend
+	•	Rich text/Markdown editor for task-beskrivelse (vitepress-friendly eller tiptap).
+	•	Tag-editor (chips), fargevalg, keyboard-shortcuts (j/k, e for edit).
+	•	Eksportknapp med background job indikator (poll eller SignalR job status).
+
+Akseptkriterier
+	•	Filvedlegg funker (upload/progress/preview for bilder).
+	•	Excel/PDF-eksport lastes ned og ser OK ut.
+
+Stretch goals
+	•	Notifikasjoner (toast + web push).
+	•	Kalender-view for due dates (fullcalendar).
+
+⸻
+
+Fase 6 — Observability, ytelse, og robusthet (1 uke)
+
+Mål: Prod-kvalitet og innsikt.
+
+Backend
+	•	Serilog → Seq (Docker). Strukturert logging + korrelasjons-ID (Middleware).
+	•	Health checks (/health, /ready) + Prometheus metrics (via OpenTelemetry/Prometheus exporter).
+	•	Caching (ResponseCache/MemoryCache) for tunge lesinger.
+
+Frontend
+	•	Lazy-loading av ruter, splitChunks, vite-analyser.
+	•	Sentry (eller OpenTelemetry web) for feilrapportering.
+
+Akseptkriterier
+	•	Dashboards i Seq/Grafana viser kall, feil og latency.
+	•	Core ruter laster raskt (TTI < 2s lokalt; bundle < “rimelig”).
+
+Stretch goals
+	•	Feature flags (toggling i UI).
+	•	Prefetch av data basert på rute-navigasjon.
+
+⸻
+
+Fase 7 — Prod-deploy & ops (1 uke)
+
+Mål: Kjør i “ordentlig” miljø.
+
+Infra
+	•	Docker images for api og web (Nginx statisk host).
+	•	Reverse proxy (Traefik eller Nginx) med TLS.
+	•	DB backup strategy (sqlcmd/az sql backup).
+	•	Miljøvariabler via .env/Secrets.
+
+CI/CD
+	•	GitHub Actions: build → test → docker build → push → deploy (SSH/Compose).
+	•	Versjonering/tagging automatisk ved release.
+
+Akseptkriterier
+	•	En kommando/merge til main deployer til staging/prod.
+	•	Rollback-oppskrift dokumentert.
+
+Stretch goals
+	•	Blue-green deploy.
+	•	Canary for web.
