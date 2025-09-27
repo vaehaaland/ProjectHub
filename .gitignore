@@ -13,3 +13,5 @@ obj/
 
 # Docker
 *.pid
+
+init_projecthub.sh
