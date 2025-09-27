@@ -21,6 +21,9 @@ jobs:
           dotnet build src/api/ProjectHub.sln --no-restore -c Release
           dotnet test src/api/ProjectHub.sln --no-build
 
+      - name: Verify API formatting
+        run: dotnet format src/api/ProjectHub.sln --verify-no-changes
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
