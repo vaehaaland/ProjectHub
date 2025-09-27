@@ -16,8 +16,8 @@ Use these snippets with `gh issue create --title ... --body <(cat <<'EOF' ...)` 
   ## Oppgaver
   - [X] Monorepo med `src/api` og `src/web` klarer lokalt build (`dotnet build`, `npm run build`).
   - [X] Docker Compose starter API, SQL Server og web; API kjører migreringer automatisk.
-  - [ ] DevX-verktøy: `.editorconfig`, ESLint/Prettier, dotnet tool manifest (`dotnet-ef`, `dotnet-format`), Serilog-baselogging.
-  - [ ] GitHub Actions bygger og tester begge prosjekter, inkluderer `npm run format`.
+  - [X] DevX-verktøy: `.editorconfig`, ESLint/Prettier, dotnet tool manifest (`dotnet-ef`, `dotnet-format`), Serilog-baselogging.
+  - [X] GitHub Actions bygger og tester begge prosjekter, inkluderer `npm run format`.
   - [ ] API har `GET /health` og web har enkel `/`-side som svarer OK.
 
   ## Akseptkriterier

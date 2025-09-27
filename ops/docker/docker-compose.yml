@@ -1,26 +1,12 @@
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    # (valgfritt på Apple silicon)
-    # platform: linux/amd64
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${SA_PASSWORD}
-    ports:
-      - "1433:1433"
-    volumes:
-      - mssqldata:/var/opt/mssql
-    restart: unless-stopped
-
   api:
     build:
       context: ../../
       dockerfile: ops/docker/Dockerfile.api
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__Default: Server=sqlserver;Database=ProjectHub;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true
-    depends_on:
-      - sqlserver
+      ConnectionStrings__Default: Server=sqlserver.tail5b1945.ts.net;Database=ProjectHub;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -34,6 +20,3 @@ services:
     depends_on:
       - api
     restart: unless-stopped
-
-volumes:
-  mssqldata:

@@ -1,0 +1,38 @@
+{
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 15,
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true,
+                "trustServerCertificate": false
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "sqlserver.tail5b1945.ts.net",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "proxmox-sqlserver",
+            "username": "sa",
+            "password": "CYoG69VFbP8pYqFxyo3G"
+        },
+        {
+            "connectionTimeout": 15,
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true,
+                "trustServerCertificate": true
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "sqlserver.tail5b1945.ts.net",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "px-sqlserver",
+            "username": "sa",
+            "password": "CYoG69VFbP8pYqFxyo3G"
+        }
+    ]
+}
