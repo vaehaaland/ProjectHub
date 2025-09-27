@@ -1,1 +1,15 @@
-.history/
+# General
+.DS_Store
+node_modules/
+dist/
+.env
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.swp
+
+# Docker
+*.pid
