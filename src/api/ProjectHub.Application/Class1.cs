@@ -1,4 +1,4 @@
-﻿namespace ProjectHub.Application;
+namespace ProjectHub.Application;
 
 public class Class1
 {

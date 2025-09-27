@@ -1,4 +1,4 @@
-﻿namespace ProjectHub.Infrastructure;
+namespace ProjectHub.Infrastructure;
 
 public class Class1
 {

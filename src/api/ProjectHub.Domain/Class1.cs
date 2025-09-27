@@ -1,4 +1,4 @@
-﻿namespace ProjectHub.Domain;
+namespace ProjectHub.Domain;
 
 public class Class1
 {
