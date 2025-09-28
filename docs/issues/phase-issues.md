@@ -18,7 +18,7 @@ Use these snippets with `gh issue create --title ... --body <(cat <<'EOF' ...)` 
   - [X] Docker Compose starter API, SQL Server og web; API kjører migreringer automatisk.
   - [X] DevX-verktøy: `.editorconfig`, ESLint/Prettier, dotnet tool manifest (`dotnet-ef`, `dotnet-format`), Serilog-baselogging.
   - [X] GitHub Actions bygger og tester begge prosjekter, inkluderer `npm run format`.
-  - [ ] API har `GET /health` og web har enkel `/`-side som svarer OK.
+  - [X] API har `GET /health` og web har enkel `/`-side som svarer OK.
 
   ## Akseptkriterier
   - `docker compose up` gjør API `/health` og web `/` tilgjengelig uten manuell inngripen.
