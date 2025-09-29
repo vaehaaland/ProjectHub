@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
     <ProjectReference Include="..\ProjectHub.Domain\ProjectHub.Domain.csproj" />
   </ItemGroup>
 
