@@ -37,7 +37,7 @@ ops/
 **Jobber:**
 
 #### 1. Build & Test API (.NET)
-```yaml
+```text
 - Setup .NET 8.0.414
 - Restore dependencies: dotnet restore
 - Build: dotnet build (Release mode)
@@ -46,7 +46,7 @@ ops/
 ```
 
 #### 2. Build & Test Web (Vue)
-```yaml
+```text
 - Setup Node 20.19.0
 - Install dependencies: npm ci
 - Format check: npm run format
@@ -115,7 +115,7 @@ EXPOSE 80
 
 Orkestrerer to tjenester:
 
-```yaml
+```text
 services:
   api:
     - Build context: Repo root
